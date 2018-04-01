@@ -1,0 +1,54 @@
+<div [hidden]="buttonClearStorageVisible">
+  <button (click)="onClickEraseLocalStorageHandler()">Clear all tasks</button>
+</div>
+
+<div>
+  <input 
+    type="text"
+    placeholder="Add some task"
+    [(ngModel)]="newTodo"
+    (keyup)="onCreateTodoItemHandler($event)" />
+</div>
+
+<div class="todos">
+  <div class="todo" 
+    *ngFor="let todo of todoTasks | searchpipe:todofilter">
+    <header class="todo-header">
+      <input 
+        type="text" 
+        (blur)="onBlurEditTaskHandler(todo)"
+        [(ngModel)]="todo.name"/>
+    </header>
+    <div class="todo-controllers">
+      <input 
+        type="checkbox" 
+        [checked]="todo.isMarkedAsDone"
+        (change)="onChangeTaskDoneHandler(todo)"/>
+      <div class="todo-priority-controller-container">
+        <a
+          title="up the priority"
+          class="todo-priority-controller controller-plus" 
+          (click)="onClickChangePriorityHandler(todo, 'plus')">&nbsp;</a>
+        <a
+          title="down the priority"
+          class="todo-priority-controller controller-minus"
+          (click)="onClickChangePriorityHandler(todo, 'minus')">&nbsp;</a>
+      </div>
+    </div>
+
+    <div class="todo-controllers todo-delete-container">
+      <button 
+        class="todo-delete-button"
+        (click)="onDeleteTaskHandler(todo)" 
+        [disabled]="!todo.isMarkedAsDone">delete</button>
+    </div>
+  </div>
+</div>
+
+<div>
+  <input
+    autocomplete="off"
+    placeholder="Search for a task"
+    type="text" 
+    [(ngModel)]="todofilter" />
+</div>
